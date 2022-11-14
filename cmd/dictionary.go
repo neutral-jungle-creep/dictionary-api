@@ -15,7 +15,7 @@ func main() {
 
 	handler := delivery.NewHandler()
 
-	server := pkg.NewServer(handler.InitRoutes())
+	server := pkg.NewServer(viper.GetString("bindPort"), handler.InitRoutes())
 
 	if err := server.Run(); err != nil {
 		logrus.Fatalf("error http server running, %s", err.Error())

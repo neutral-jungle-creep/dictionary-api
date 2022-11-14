@@ -14,17 +14,9 @@ func NewHandler() Handler {
 func (h Handler) InitRoutes() *gin.Engine {
 	router := gin.New()
 
-	show := router.Group("/show-dictionary")
+	show := router.Group("/show")
 	{
 		show.GET("/words", h.showWords)
 	}
-	edit := router.Group("/edit-dictionary")
-	{
-		edit.POST("/edit-word")
-		edit.POST("/add-word")
-	}
 	return router
-}
-
-func (h *Handler) showWords(c *gin.Context) {
 }
