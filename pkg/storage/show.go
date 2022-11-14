@@ -1,6 +1,14 @@
 package storage
 
-import "github.com/jackc/pgx/v4"
+import (
+	"context"
+	"dictionary/pkg/service/dto"
+	"github.com/jackc/pgx/v4"
+)
+
+const (
+	getAllWords = `SELECT * FROM english_words`
+)
 
 type ShowStorage struct {
 	conn *pgx.Conn
@@ -12,6 +20,18 @@ func NewShowStorage(conn *pgx.Conn) *ShowStorage {
 	}
 }
 
-func (s *ShowStorage) ShowAllWords() {
+func (s *ShowStorage) GetAllWords() ([]dto.WordDto, error) {
+	var words []dto.WordDto
+	result, err := s.conn.Query(context.Background(), getAllWords)
+	if err != nil {
+		return nil, err
+	}
 
+	for result.Next() {
+		var word dto.WordDto
+		result.Scan(&word.Id, &word.Word, &word.Translation)
+		words = append(words, word)
+	}
+
+	return words, nil
 }

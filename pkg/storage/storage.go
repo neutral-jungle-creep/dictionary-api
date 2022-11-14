@@ -1,6 +1,7 @@
 package storage
 
 import (
+	"dictionary/pkg/service/dto"
 	"github.com/jackc/pgx/v4"
 )
 
@@ -15,5 +16,5 @@ func NewStorage(conn *pgx.Conn) *Storage {
 }
 
 type Show interface {
-	ShowAllWords()
+	GetAllWords() ([]dto.WordDto, error)
 }
