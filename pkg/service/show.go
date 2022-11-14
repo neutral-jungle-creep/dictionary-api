@@ -24,7 +24,7 @@ func (s *ShowService) ShowWords() ([]domain.Word, error) {
 	}
 
 	for _, wordDto := range wordsDto {
-		words = append(words, *domain.NewWord(wordDto.Id, wordDto.Word, wordDto.Translation))
+		words = append(words, *domain.NewWord(wordDto.Id, wordDto.ForeignWord, wordDto.Translation))
 	}
 	return words, nil
 }

@@ -29,7 +29,7 @@ func (s *ShowStorage) GetAllWords() ([]dto.WordDto, error) {
 
 	for result.Next() {
 		var word dto.WordDto
-		result.Scan(&word.Id, &word.Word, &word.Translation)
+		result.Scan(&word.Id, &word.ForeignWord, &word.Translation)
 		words = append(words, word)
 	}
 
