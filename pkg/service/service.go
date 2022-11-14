@@ -1,6 +1,9 @@
 package service
 
-import "dictionary/pkg/storage"
+import (
+	"dictionary/pkg/domain"
+	"dictionary/pkg/storage"
+)
 
 type Service struct {
 	Show
@@ -13,5 +16,5 @@ func NewService(storage *storage.Storage) *Service {
 }
 
 type Show interface {
-	ShowWords()
+	ShowWords() ([]domain.Word, error)
 }
