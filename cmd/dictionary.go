@@ -3,6 +3,8 @@ package main
 import (
 	"dictionary/pkg"
 	"dictionary/pkg/delivery"
+	"dictionary/pkg/service"
+	"dictionary/pkg/storage"
 	"flag"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
@@ -13,7 +15,14 @@ func main() {
 		logrus.Fatalf("error init configuration, %s", err.Error())
 	}
 
-	handler := delivery.NewHandler()
+	dbConn, err := storage.NewConnect(viper.GetString("dbLink"))
+	if err != nil {
+		logrus.Fatalf("connect db error: %s", err.Error())
+	}
+
+	stor := storage.NewStorage(dbConn)
+	serv := service.NewService(stor)
+	handler := delivery.NewHandler(serv)
 
 	server := pkg.NewServer(viper.GetString("bindPort"), handler.InitRoutes())
 
