@@ -1,1 +1,2 @@
 bindPort: "8008"
+dbLink: "postgres://postgres:111@localhost:5432/dictionary"
