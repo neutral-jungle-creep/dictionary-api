@@ -1,7 +1,7 @@
 package service
 
 import (
-	"dictionary/pkg/domain"
+	"dictionary/pkg/service/dto"
 	"dictionary/pkg/storage"
 )
 
@@ -15,16 +15,16 @@ func NewShowService(storage storage.Show) *ShowService {
 	}
 }
 
-func (s *ShowService) GetAllWords() ([]domain.Word, error) {
-	var words []domain.Word
+func (s *ShowService) GetAllWords() ([]dto.WordDto, error) {
+	var wordsDto []dto.WordDto
 
-	wordsDto, err := s.storage.GetAllFromEnglishWords()
+	words, err := s.storage.GetAllFromEnglishWords()
 	if err != nil {
 		return nil, err
 	}
 
-	for _, wordDto := range wordsDto {
-		words = append(words, *domain.NewWord(wordDto.Id, wordDto.ForeignWord, wordDto.Translation))
+	for _, word := range words {
+		wordsDto = append(wordsDto, *dto.NewWordDto(word.Id, word.ForeignWord, word.Translation))
 	}
-	return words, nil
+	return wordsDto, nil
 }
