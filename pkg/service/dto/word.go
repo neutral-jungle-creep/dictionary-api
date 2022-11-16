@@ -1,7 +1,7 @@
 package dto
 
 type WordDto struct {
-	Id          int    `json:"id" binding:"required"`
-	ForeignWord string `json:"word" binding:"required"`
-	Translation string `json:"translation" binding:"required"`
+	Id          int    `json:"id"`
+	ForeignWord string `json:"word"`
+	Translation string `json:"translation"`
 }
