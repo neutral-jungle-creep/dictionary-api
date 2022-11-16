@@ -16,6 +16,7 @@ func NewStorage(conn *pgx.Conn) *Storage {
 }
 
 type Dictionary interface {
-	GetAllFromEnglishWords() ([]domain.Word, error)
+	GetAllFromWords() ([]domain.Word, error)
+	GetWordId(*domain.Word) int
 	AddWordToDB(word *domain.Word) error
 }

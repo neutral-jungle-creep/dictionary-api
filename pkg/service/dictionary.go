@@ -4,6 +4,7 @@ import (
 	"dictionary/pkg/domain"
 	"dictionary/pkg/service/dto"
 	"dictionary/pkg/storage"
+	"errors"
 )
 
 type WordService struct {
@@ -19,7 +20,7 @@ func NewWordService(storage storage.Dictionary) *WordService {
 func (s *WordService) GetAllWords() ([]dto.WordDto, error) {
 	var wordsDto []dto.WordDto
 
-	words, err := s.storage.GetAllFromEnglishWords()
+	words, err := s.storage.GetAllFromWords()
 	if err != nil {
 		return nil, err
 	}
@@ -32,6 +33,11 @@ func (s *WordService) GetAllWords() ([]dto.WordDto, error) {
 
 func (s *WordService) AddWord(wordDto *dto.WordDto) error {
 	word := domain.NewWord(wordDto.Id, wordDto.ForeignWord, wordDto.Translation)
+
+	if s.storage.GetWordId(word) != 0 {
+		return errors.New("the word already exists")
+	}
+
 	if err := s.storage.AddWordToDB(word); err != nil {
 		return err
 	}

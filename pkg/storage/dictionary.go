@@ -8,6 +8,8 @@ import (
 
 const (
 	getAllWords = `SELECT * FROM english_words`
+	getWordId   = `SELECT id FROM english_words WHERE word=$1 AND transl=$2`
+	addWord     = `INSERT INTO english_words (word, transl) VALUES ($1, $2)`
 )
 
 type WordStorage struct {
@@ -20,7 +22,7 @@ func NewWordStorage(conn *pgx.Conn) *WordStorage {
 	}
 }
 
-func (s *WordStorage) GetAllFromEnglishWords() ([]domain.Word, error) {
+func (s *WordStorage) GetAllFromWords() ([]domain.Word, error) {
 	var words []domain.Word
 	result, err := s.conn.Query(context.Background(), getAllWords)
 	if err != nil {
@@ -36,12 +38,18 @@ func (s *WordStorage) GetAllFromEnglishWords() ([]domain.Word, error) {
 	return words, nil
 }
 
-func (s *WordStorage) GetWordFromDB() {
-	//TODO
+func (s *WordStorage) GetWordId(word *domain.Word) int {
+	var wordId int
+
+	result := s.conn.QueryRow(context.Background(), getWordId, word.ForeignWord, word.Translation)
+	if err := result.Scan(&wordId); err != nil {
+		return 0
+	}
+	return wordId
 }
 
 func (s *WordStorage) AddWordToDB(word *domain.Word) error {
-	_, err := s.conn.Exec(context.Background(), ``,
+	_, err := s.conn.Exec(context.Background(), addWord,
 		word.ForeignWord,
 		word.Translation,
 	)
