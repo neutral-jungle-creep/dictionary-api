@@ -20,7 +20,11 @@ func (h Handler) InitRoutes() *gin.Engine {
 
 	show := router.Group("/show")
 	{
-		show.GET("/words", h.showWords)
+		show.GET("/all-words", h.showWords)
+	}
+	edit := router.Group("/write")
+	{
+		edit.POST("/add-new-word", h.addNewWord)
 	}
 	return router
 }

@@ -20,7 +20,7 @@ func NewShowStorage(conn *pgx.Conn) *ShowStorage {
 	}
 }
 
-func (s *ShowStorage) GetAllWords() ([]dto.WordDto, error) {
+func (s *ShowStorage) GetAllFromEnglishWords() ([]dto.WordDto, error) {
 	var words []dto.WordDto
 	result, err := s.conn.Query(context.Background(), getAllWords)
 	if err != nil {

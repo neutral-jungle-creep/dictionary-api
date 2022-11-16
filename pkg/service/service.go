@@ -16,5 +16,5 @@ func NewService(storage *storage.Storage) *Service {
 }
 
 type Show interface {
-	ShowWords() ([]domain.Word, error)
+	GetAllWords() ([]domain.Word, error)
 }

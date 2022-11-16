@@ -16,5 +16,5 @@ func NewStorage(conn *pgx.Conn) *Storage {
 }
 
 type Show interface {
-	GetAllWords() ([]dto.WordDto, error)
+	GetAllFromEnglishWords() ([]dto.WordDto, error)
 }

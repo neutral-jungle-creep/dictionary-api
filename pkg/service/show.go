@@ -15,10 +15,10 @@ func NewShowService(storage storage.Show) *ShowService {
 	}
 }
 
-func (s *ShowService) ShowWords() ([]domain.Word, error) {
+func (s *ShowService) GetAllWords() ([]domain.Word, error) {
 	var words []domain.Word
 
-	wordsDto, err := s.storage.GetAllWords()
+	wordsDto, err := s.storage.GetAllFromEnglishWords()
 	if err != nil {
 		return nil, err
 	}
