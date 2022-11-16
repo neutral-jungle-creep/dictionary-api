@@ -9,8 +9,8 @@ import (
 func (h *Handler) showWords(c *gin.Context) {
 	words, err := h.service.Show.GetAllWords()
 	if err != nil {
-		logrus.Errorf("error in showWords func, %s", err.Error())
-		c.AbortWithStatusJSON(http.StatusInternalServerError, err.Error())
+		NewException("showWords", c, http.StatusInternalServerError, err).ExceptionResp()
+		return
 	}
 	logrus.Infof("showWords completed successfully, %d", http.StatusOK)
 	c.JSON(http.StatusOK, words)
