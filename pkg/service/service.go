@@ -6,21 +6,16 @@ import (
 )
 
 type Service struct {
-	Show
-	Edit
+	Dictionary
 }
 
 func NewService(storage *storage.Storage) *Service {
 	return &Service{
-		Show: NewShowService(storage.Show),
-		Edit: NewEditService(storage.Edit),
+		Dictionary: NewWordService(storage.Dictionary),
 	}
 }
 
-type Show interface {
+type Dictionary interface {
 	GetAllWords() ([]dto.WordDto, error)
-}
-
-type Edit interface {
 	AddWord(wordDto *dto.WordDto) error
 }

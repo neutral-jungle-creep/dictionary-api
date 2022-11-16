@@ -6,21 +6,16 @@ import (
 )
 
 type Storage struct {
-	Show
-	Edit
+	Dictionary
 }
 
 func NewStorage(conn *pgx.Conn) *Storage {
 	return &Storage{
-		Show: NewShowStorage(conn),
-		Edit: NewEditStorage(conn),
+		Dictionary: NewWordStorage(conn),
 	}
 }
 
-type Show interface {
+type Dictionary interface {
 	GetAllFromEnglishWords() ([]domain.Word, error)
-}
-
-type Edit interface {
 	AddWordToDB(word *domain.Word) error
 }

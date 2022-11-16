@@ -10,17 +10,17 @@ const (
 	getAllWords = `SELECT * FROM english_words`
 )
 
-type ShowStorage struct {
+type WordStorage struct {
 	conn *pgx.Conn
 }
 
-func NewShowStorage(conn *pgx.Conn) *ShowStorage {
-	return &ShowStorage{
+func NewWordStorage(conn *pgx.Conn) *WordStorage {
+	return &WordStorage{
 		conn: conn,
 	}
 }
 
-func (s *ShowStorage) GetAllFromEnglishWords() ([]domain.Word, error) {
+func (s *WordStorage) GetAllFromEnglishWords() ([]domain.Word, error) {
 	var words []domain.Word
 	result, err := s.conn.Query(context.Background(), getAllWords)
 	if err != nil {
@@ -34,4 +34,16 @@ func (s *ShowStorage) GetAllFromEnglishWords() ([]domain.Word, error) {
 	}
 
 	return words, nil
+}
+
+func (s *WordStorage) GetWordFromDB() {
+	//TODO
+}
+
+func (s *WordStorage) AddWordToDB(word *domain.Word) error {
+	_, err := s.conn.Exec(context.Background(), ``,
+		word.ForeignWord,
+		word.Translation,
+	)
+	return err
 }

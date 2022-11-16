@@ -33,7 +33,7 @@ func (h Handler) InitRoutes() *gin.Engine {
 }
 
 func (h *Handler) showWords(c *gin.Context) {
-	words, err := h.service.Show.GetAllWords()
+	words, err := h.service.Dictionary.GetAllWords()
 	if err != nil {
 		NewException("showWords", c, http.StatusInternalServerError, err).ExceptionResp()
 		return
@@ -56,7 +56,7 @@ func (h *Handler) addNewWord(c *gin.Context) {
 	}
 
 	wordDto := dto.NewWordDto(0, input.ForeignWord, input.Translation)
-	if err := h.service.Edit.AddWord(wordDto); err != nil {
+	if err := h.service.Dictionary.AddWord(wordDto); err != nil {
 		NewException("addNewWord", c, http.StatusInternalServerError, err).ExceptionResp()
 		return
 	}
