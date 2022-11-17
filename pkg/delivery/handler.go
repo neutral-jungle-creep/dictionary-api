@@ -55,7 +55,7 @@ func (h *Handler) addNewWord(c *gin.Context) {
 		return
 	}
 
-	wordDto := dto.NewWordDto(0, input.ForeignWord, input.Translation)
+	wordDto := dto.NewWordDto(0, input.ForeignWord, input.Translation, false)
 	if err := h.service.Dictionary.AddWord(wordDto); err != nil {
 		NewException("addNewWord", c, http.StatusInternalServerError, err).ExceptionResp()
 		return
