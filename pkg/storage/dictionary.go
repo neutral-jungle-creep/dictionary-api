@@ -8,7 +8,7 @@ import (
 
 const (
 	getAllWords = `SELECT * FROM english_words`
-	getWordId   = `SELECT id FROM english_words WHERE word=$1`
+	getWordId   = `SELECT id FROM english_words WHERE word=$1 AND transl=$2`
 	addWord     = `INSERT INTO english_words (word, transl, learned) VALUES ($1, $2, $3)`
 )
 
@@ -41,7 +41,7 @@ func (s *WordStorage) GetAllFromWords() ([]domain.Word, error) {
 func (s *WordStorage) GetWordId(word *domain.Word) int {
 	var wordId int
 
-	result := s.conn.QueryRow(context.Background(), getWordId, word.ForeignWord)
+	result := s.conn.QueryRow(context.Background(), getWordId, word.ForeignWord, word.Translation)
 	if err := result.Scan(&wordId); err != nil {
 		return 0
 	}
