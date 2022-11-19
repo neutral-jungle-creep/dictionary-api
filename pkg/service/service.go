@@ -1,6 +1,7 @@
 package service
 
 import (
+	"dictionary/pkg/domain"
 	"dictionary/pkg/service/dto"
 	"dictionary/pkg/storage"
 )
@@ -16,6 +17,6 @@ func NewService(storage *storage.Storage) *Service {
 }
 
 type Dictionary interface {
-	GetAllWords() ([]dto.WordDto, error)
+	GetAllWords() ([]domain.Word, error)
 	AddWord(wordDto *dto.WordDto) error
 }

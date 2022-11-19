@@ -3,6 +3,7 @@ package storage
 import (
 	"context"
 	"dictionary/pkg/domain"
+	"dictionary/pkg/service/dto"
 	"github.com/jackc/pgx/v4"
 )
 
@@ -22,15 +23,16 @@ func NewWordStorage(conn *pgx.Conn) *WordStorage {
 	}
 }
 
-func (s *WordStorage) GetAllFromWords() ([]domain.Word, error) {
-	var words []domain.Word
+func (s *WordStorage) GetAllFromWords() ([]dto.WordDto, error) {
+	var words []dto.WordDto
+
 	result, err := s.conn.Query(context.Background(), getAllWords)
 	if err != nil {
 		return nil, err
 	}
 
 	for result.Next() {
-		var word domain.Word
+		var word dto.WordDto
 		result.Scan(&word.Id, &word.ForeignWord, &word.Translation, &word.Learned)
 		words = append(words, word)
 	}

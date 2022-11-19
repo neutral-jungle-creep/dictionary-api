@@ -2,6 +2,7 @@ package storage
 
 import (
 	"dictionary/pkg/domain"
+	"dictionary/pkg/service/dto"
 	"github.com/jackc/pgx/v4"
 )
 
@@ -16,7 +17,7 @@ func NewStorage(conn *pgx.Conn) *Storage {
 }
 
 type Dictionary interface {
-	GetAllFromWords() ([]domain.Word, error)
+	GetAllFromWords() ([]dto.WordDto, error)
 	GetWordId(*domain.Word) int
 	AddWordToDB(word *domain.Word) error
 }
