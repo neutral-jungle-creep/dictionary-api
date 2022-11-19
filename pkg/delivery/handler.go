@@ -28,6 +28,7 @@ func (h Handler) InitRoutes() *gin.Engine {
 	write := router.Group("/write")
 	{
 		write.POST("/add-new-word", h.addNewWord)
+		write.POST("/edit-word", h.editWord)
 	}
 	return router
 }
@@ -42,13 +43,13 @@ func (h *Handler) showWords(c *gin.Context) {
 	c.JSON(http.StatusOK, words)
 }
 
-type UserRequestWord struct {
+type AddNewWord struct {
 	ForeignWord string `json:"word" binding:"required"`
 	Translation string `json:"translation" binding:"required"`
 }
 
 func (h *Handler) addNewWord(c *gin.Context) {
-	var input UserRequestWord
+	var input AddNewWord
 
 	if err := c.BindJSON(&input); err != nil {
 		NewException("addNewWord", c, http.StatusBadRequest, err).ExceptionResp()
@@ -63,4 +64,25 @@ func (h *Handler) addNewWord(c *gin.Context) {
 
 	logrus.Infof("addNewWord completed successfully, %d", http.StatusOK)
 	c.JSON(http.StatusOK, "слово успешно добавлено")
+}
+
+type EditWord struct {
+	Id int `json:"id" binding:"required"`
+}
+
+func (h *Handler) editWord(c *gin.Context) {
+	var input EditWord
+
+	if err := c.BindJSON(&input); err != nil {
+		NewException("editWord", c, http.StatusBadRequest, err).ExceptionResp()
+		return
+	}
+
+	if err := h.service.Dictionary.EditWord(input.Id); err != nil {
+		NewException("editWord", c, http.StatusInternalServerError, err).ExceptionResp()
+		return
+	}
+
+	logrus.Infof("editWord completed successfully, %d", http.StatusOK)
+	c.JSON(http.StatusOK, "слово успешно отредактировано")
 }
